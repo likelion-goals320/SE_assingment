@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^topguard$ application/topguard.php [NC]
