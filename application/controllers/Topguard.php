@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+  //static $userid_num=0; //전역변수 설정
 class Topguard extends CI_Controller {
     function __construct()
     {       
@@ -26,9 +27,9 @@ class Topguard extends CI_Controller {
     }
     function get_from_app_id(){
         $userid = $_GET['userid'];
-	$id = $_GET['id'];
+	      $id = $_GET['id'];
         $data = $this->Topguard_model->get_from_app_id($userid, $id);
-        var_dump($data);
+        $this->load->view('command_name', array('commands'=>$data));
         $this->load->view('footer');
     }
 
@@ -43,10 +44,10 @@ class Topguard extends CI_Controller {
     }
     
     function get_from_com_id(){
-	$userid = $_GET['userid'];
+	      $userid = $_GET['userid'];
         $id = $_GET['id'];
         $data = $this->Topguard_model->get_from_com_id($userid, $id);
-        var_dump($data);
+        $this->load->view('command_name', array('commands'=>$data));
         $this->load->view('footer');
     }
 
@@ -78,6 +79,15 @@ class Topguard extends CI_Controller {
              print_r($errors);
           }
         }
+    }
+
+    function give_me_userid(){
+      /*global $userid_num;
+      $userid_num++;
+      echo 'kk';
+      echo $userid_num;*/
+      $userid= $this->Topguard_model->create_userid();
+      echo ++$userid;
     }
 }
 ?>
