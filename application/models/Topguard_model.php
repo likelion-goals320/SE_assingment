@@ -34,5 +34,16 @@ class Topguard_model extends CI_Model {
     function create_userid(){
       $sql="SELECT distinct userid from command_com_to_app";
       return $this->db->query($sql)->num_rows();
+    } 
+     function gets_from_app10(){ //table에 있는 정보 return
+        return $this->db->query('SELECT * FROM command_app_to_com ORDER BY id DESC LIMIT 10')->result();
+    }
+	
+	function gets_from_com10(){ //table에 있는 정보 return
+        return $this->db->query('SELECT * FROM command_com_to_app ORDER BY id DESC LIMIT 10')->result();
+    }
+	
+	 function insert_gpsinfo($gps_userid,$gps_lat, $gps_long){ //table에 data 추가
+       $this->db->query('INSERT INTO gpsinfo (userid, latitude, longitude) values ('.$gps_userid.','.$gps_lat.', '.$gps_long.')');
     }
 }

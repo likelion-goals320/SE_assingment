@@ -16,6 +16,20 @@ class Topguard extends CI_Controller {
         $this->load->view('topguard_com_command_list', array('commands'=>$data));
         $this->load->view('footer');
     }
+
+	function get_from_10(){
+		$data=$this->Topguard_model->gets_from_app10();
+		$this->load->view('topguard_app_command_list',array('commands'=>$data));
+		$data=$this->Topguard_model->gets_from_com10();
+		$this->load->view('topguard_com_command_list',array('commands'=>$data));
+		$this->load->view('footer');
+	}
+
+	function get_from_com10(){
+		$data=$this->Topguard_model->gets_from_com10();
+		$this->load->view('topguard_com_command_list',array('commands'=>$data));
+		$this->load->view('footer');
+	}
     function get_from_app(){
 	$userid = $_GET['userid'];
         $id = $_GET['id'];
@@ -80,7 +94,7 @@ class Topguard extends CI_Controller {
           }
         }
     }
-
+	
     function give_me_userid(){
       /*global $userid_num;
       $userid_num++;
@@ -89,5 +103,14 @@ class Topguard extends CI_Controller {
       $userid= $this->Topguard_model->create_userid();
       echo ++$userid;
     }
+	
+	function insert_gpsinfo(){
+	$userid = $_GET['userid'];
+        $lat = $_GET['latitude'];
+        $long = $_GET['longitude'];
+        $this->Topguard_model->insert_gpsinfo($userid, $lat, $long);
+        $this->load->view('footer');
+	}
+
 }
 ?>
