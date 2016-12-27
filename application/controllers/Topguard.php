@@ -100,7 +100,6 @@ class Topguard extends CI_Controller {
      $this->load->view('view_userid', array('commands'=>$userid));
      $this->load->view('footer');
     }
-<<<<<<< HEAD
 
     function insert_gpsinfo(){
       $userid = $_GET['userid'];
@@ -131,16 +130,5 @@ class Topguard extends CI_Controller {
     $this->Topguard_model->set_ratio($userid);
     $this->load->view('footer');
   }
-=======
-	
-	function insert_gpsinfo(){
-	$userid = $_GET['userid'];
-        $lat = $_GET['latitude'];
-        $long = $_GET['longitude'];
-        $this->Topguard_model->insert_gpsinfo($userid, $lat, $long);
-        $this->load->view('footer');
-	}
-
->>>>>>> 844333b00d2b423d309161d826348a14dbb8b806
 }
 ?>
