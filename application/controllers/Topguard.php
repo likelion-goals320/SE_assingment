@@ -59,13 +59,13 @@ class Topguard extends CI_Controller {
           $file_size=$_FILES['image']['size'];
           $file_tmp=$_FILES['image']['tmp_name'];
           $file_type=$_FILES['image']['type'];
-          $tmp=explode('.',$_FILES['image']['name']);
-          $file_ext=strtolower(end($tmp));
+          $tmp=explode('.',$_FILES['image']['name']); //파일의 이름을 '.'을 기준으로 나누어 배열로 저장한다.
+          $file_ext=strtolower(end($tmp)); //end()를 이용해서 배열의 마지막 원소를 가리키게 한 후, 즉 파일의 확장자를 가리키게 한 후 소문자로 바꿔서 저장한다.
           
           $expensions= array("jpeg","jpg","png");
           
           if(in_array($file_ext,$expensions)=== false){
-             $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+             $errors[]="extension not allowed, please choose a JPEG or PNG file."; //in_array함수를 이용하여 $file_ext에 jpeg, jpg, png 중에 하나라도 있는지 확인한다.
           }
           
           if($file_size > 2097152){
@@ -82,12 +82,39 @@ class Topguard extends CI_Controller {
     }
 
     function give_me_userid(){
-      /*global $userid_num;
-      $userid_num++;
-      echo 'kk';
-      echo $userid_num;*/
       $userid= $this->Topguard_model->create_userid();
-      echo ++$userid;
+     $this->load->view('view_userid', array('commands'=>$userid));
+     $this->load->view('footer');
     }
+
+    function insert_gpsinfo(){
+      $userid = $_GET['userid'];
+      $lat = $_GET['latitude'];
+      $long = $_GET['longitude'];
+      $this->Topguard_model->insert_gpsinfo($userid, $lat, $long);
+      $this->load->view('footer');
+  }
+
+      function insert_photoinfo(){
+      $name = $_GET['file_name'];
+      $lightness = $_GET['lightness'];
+      $time = $_GET['timestamp'];
+      $face_rg = $_GET['face_rg'];
+      $id = $_GET['userid'];
+
+      $this->Topguard_model->insert_photoinfo($name, $lightness, $time, $face_rg, $id);
+
+      //photoinfo테이블과 gpsinfo테이블 join한 후에 위도 경도 뽑아내고 gpswarning 테이블에 해당 위도 경도 없으면 데이터 넣고 있으면 감지횟수 +1(얼굴인식 횟수 증가하면 +1) => 리눅스 mysql에 트리거를 이용하여 적용시킴
+
+      $this->load->view('footer');
+  }
+
+  function send_ratio(){
+
+    $userid = $_GET['userid'];
+
+    $this->Topguard_model->set_ratio($userid);
+    $this->load->view('footer');
+  }
 }
 ?>
